@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.MAIN
-import com.example.todolist.POS
+import com.example.todolist.Main
+import com.example.todolist.Position
 import com.example.todolist.R
 import com.example.todolist.databinding.TaskLayoutBinding
 import com.example.todolist.model.TaskModel
@@ -35,14 +35,14 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.binding.card.setOnClickListener{
-            POS = position
-            MAIN.navController.navigate(R.id.action_mainFragment_to_changeFragment)
+            Position = position
+            Main.navController.navigate(R.id.action_mainFragment_to_changeFragment)
         }
         holder.binding.todoCheckBox.text = taskList[position].textOfTask
         holder.binding.todoCheckBox.isChecked = taskList[position].isChecked > 0
         holder.binding.todoCheckBox.setOnClickListener{
             taskList[position].isChecked = if (holder.binding.todoCheckBox.isChecked) 1 else 0
-            MAIN.taskDao.updateTask(taskList[position])
+            Main.taskDao.updateTask(taskList[position])
             if (holder.binding.todoCheckBox.isChecked) {
                 holder.binding.todoCheckBox.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             }
@@ -51,7 +51,7 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
             }
         }
         holder.binding.btnDel.setOnClickListener {
-            MAIN.taskDao.delete(taskList[position])
+            Main.taskDao.delete(taskList[position])
             taskList.removeAt(position)
             notifyDataSetChanged()
         }
